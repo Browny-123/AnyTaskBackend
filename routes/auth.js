@@ -82,4 +82,9 @@ router.post("/signin", (req, res, next) => {
   })(req, res, next);
 });
 
+router.post("/logout", (req, res, next) => {
+  req.logout();
+  res.redirect("/");
+});
+
 module.exports = router;

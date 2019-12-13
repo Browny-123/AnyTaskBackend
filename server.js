@@ -12,14 +12,18 @@ server.use(express.json());
 
 server.use(
   session({
-    cookie: { secure: true, maxAge: 4 * 60 * 60 * 1000 },
+    cookie: { secure: false, maxAge: 4 * 60 * 60 * 1000 },
     resave: true,
     saveUninitialized: true,
     secret: "hey"
   })
 );
-
-server.use(cors("*"));
+const corOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+server.use(cors(corOptions));
 
 server.use(passport.initialize());
 server.use(passport.session());

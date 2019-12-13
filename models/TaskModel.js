@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const taskSchema = new Schema({
-  userID: {
+  ownerId: {
     type: Schema.Types.ObjectId,
     ref: "User"
   },
@@ -13,19 +13,16 @@ const taskSchema = new Schema({
     postcode: String,
     country: String
   },
-  details: String,
+  jobDetails: String,
   speciality: Array,
-  time: Number,
-  price: Number,
+  timeNeeded: Number,
+  cost: Number,
   status: {
     type: String,
     enum: ["pending", "active", "closed"],
     default: "pending"
   },
-  date: {
-    startDate: String,
-    startTime: String
-  },
+  date: String,
   appliedUsers: [
     {
       type: Schema.Types.ObjectId,
