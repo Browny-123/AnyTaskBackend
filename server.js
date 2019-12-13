@@ -19,10 +19,11 @@ server.use(
   })
 );
 const corOptions = {
-  origin: "http://localhost:3000",
+  origin: process.env.FRONT_URL,
   credentials: true,
   optionsSuccessStatus: 200
 };
+
 server.use(cors(corOptions));
 
 server.use(passport.initialize());
