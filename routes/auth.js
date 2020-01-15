@@ -99,21 +99,4 @@ router.post("/logout", (req, res, next) => {
   res.redirect("/");
 });
 
-router.use("/is-loggedin", (req, res, next) => {
-  if (req.isAuthenticated()) {
-    const { _id, username, name, contactNumber, email, address } = req.user;
-    return res.status(200).json({
-      currentUser: {
-        _id,
-        username,
-        name,
-        contactNumber,
-        email,
-        address
-      }
-    });
-  }
-  res.status(403).json("Unauthorized");
-});
-
 module.exports = router;
