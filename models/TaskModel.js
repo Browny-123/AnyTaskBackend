@@ -14,13 +14,13 @@ const taskSchema = new Schema({
     country: String
   },
   jobDetails: String,
-  speciality: Array,
+  speciality: String,
   timeNeeded: Number,
-  cost: Number,
+  reward: Number,
   status: {
     type: String,
-    enum: ["pending", "active", "closed"],
-    default: "pending"
+    enum: ["active", "closed"],
+    default: "active"
   },
   date: String,
   appliedUsers: [
@@ -32,7 +32,14 @@ const taskSchema = new Schema({
   taskTaker: {
     type: Schema.Types.ObjectId,
     ref: "User"
-  }
+  },
+  messages: [
+    {
+      senderName: String,
+      message: String,
+      date: String
+    }
+  ]
 });
 
 const taskModel = mongoose.model("Task", taskSchema);

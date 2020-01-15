@@ -3,8 +3,9 @@ const router = new express.Router();
 const userModel = require("./../models/UserModel");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
+const uploader = require("./../config/cloudinary");
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", uploader.single("profilePicture"), (req, res, next) => {
   const {
     username,
     name,
@@ -43,6 +44,8 @@ router.post("/signup", (req, res, next) => {
     }
   };
 
+  if (req.file) newUser.profilePicture = req.file.secure_url;
+
   userModel
     .create(newUser)
     .then(userDb => {
@@ -65,7 +68,15 @@ router.post("/signin", (req, res, next) => {
         res.json({ message: "Something went wrong logging in" });
       }
 
-      const { _id, username, name, contactNumber, email, address } = user;
+      const {
+        _id,
+        username,
+        name,
+        contactNumber,
+        email,
+        address,
+        profilePicture
+      } = user;
       next(
         res.status(200).json({
           currentUser: {
@@ -74,7 +85,8 @@ router.post("/signin", (req, res, next) => {
             name,
             contactNumber,
             email,
-            address
+            address,
+            profilePicture
           }
         })
       );
@@ -85,6 +97,23 @@ router.post("/signin", (req, res, next) => {
 router.post("/logout", (req, res, next) => {
   req.logout();
   res.redirect("/");
+});
+
+router.use("/is-loggedin", (req, res, next) => {
+  if (req.isAuthenticated()) {
+    const { _id, username, name, contactNumber, email, address } = req.user;
+    return res.status(200).json({
+      currentUser: {
+        _id,
+        username,
+        name,
+        contactNumber,
+        email,
+        address
+      }
+    });
+  }
+  res.status(403).json("Unauthorized");
 });
 
 module.exports = router;

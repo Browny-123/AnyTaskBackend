@@ -29,12 +29,19 @@ server.use(cors(corOptions));
 server.use(passport.initialize());
 server.use(passport.session());
 
-const main = require("./routes/main");
-server.use(main);
+server.get("/", (req, res) => {
+  res.status(200).send("Connected Successfully");
+});
 const auth = require("./routes/auth");
 server.use(auth);
 const taskManagement = require("./routes/taskManagement");
 server.use(taskManagement);
+
+const updateProfile = require("./routes/ProfileEdits");
+server.use(updateProfile);
+
+const Messaging = require("./routes/Messaging");
+server.use(Messaging);
 
 server.listen(process.env.PORT, () => {
   console.log("listening on port" + process.env.PORT);

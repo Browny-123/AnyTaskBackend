@@ -14,7 +14,7 @@ const modelSchema = new Schema({
     postcode: String,
     country: String
   },
-  userPicture: String
+  profilePicture: String
 });
 
 const userModel = mongoose.model("User", modelSchema);
