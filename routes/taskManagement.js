@@ -43,8 +43,18 @@ router.post("/createtask", (req, res, next) => {
 router.get("/searchJobs", (req, res, next) => {
   const searchCity = req.query.city;
 
+  const { _id } = req.user;
+
   taskModel
-    .find({ "location.city": searchCity })
+    .find({
+      $and: [
+        { "location.city": searchCity },
+        { ownerId: { $ne: _id } },
+        {
+          appliedUsers: { $ne: _id }
+        }
+      ]
+    })
     .populate("ownerId")
     .then(dbRes => {
       res.status(200).json(dbRes);
