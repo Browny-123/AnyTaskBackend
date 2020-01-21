@@ -23,10 +23,10 @@ passport.use(
     userModel
       .findOne({ email: email })
       .then(user => {
-        if (!user) return next(null, false, "Incorrect signin infos");
+        if (!user) return next(null, false, "Incorrect signin information");
 
         if (!bcrypt.compareSync(passwd, user.password)) {
-          return next(null, false, "Incorrect signin infos");
+          return next(null, false, "Incorrect signin information");
         } else {
           next(null, user);
         }

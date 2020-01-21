@@ -107,4 +107,15 @@ router.post("/job-taker-selected/:id", (req, res, next) => {
     .catch(err => res.status(200).json("Database Error, Please Try Again"));
 });
 
+router.delete("/deleteJob/:id", (req, res) => {
+  taskModel
+    .findByIdAndDelete(req.params.id)
+    .then(dbRes => {
+      res.status(200).json(`Job Id "${dbRes._id}" Deleted Successfully`);
+    })
+    .catch(err =>
+      res.status(500).json("Error Deleting Task, Please try again")
+    );
+});
+
 module.exports = router;
